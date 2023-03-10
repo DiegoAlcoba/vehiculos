@@ -344,16 +344,6 @@
      <string>Matrícula</string>
     </property>
    </widget>
-   <widget class="QLineEdit" name="matricula">
-    <property name="geometry">
-     <rect>
-      <x>160</x>
-      <y>680</y>
-      <width>211</width>
-      <height>31</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QPushButton" name="generaMatricula">
     <property name="geometry">
      <rect>
@@ -378,6 +368,16 @@
     </property>
     <property name="text">
      <string>Nº de vagones:</string>
+    </property>
+   </widget>
+   <widget class="QLineEdit" name="matricula">
+    <property name="geometry">
+     <rect>
+      <x>160</x>
+      <y>680</y>
+      <width>211</width>
+      <height>31</height>
+     </rect>
     </property>
    </widget>
   </widget>

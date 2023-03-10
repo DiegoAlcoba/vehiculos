@@ -7,6 +7,10 @@
 #include <QString>
 #include <QMessageBox>
 #include <iostream>
+#include <stdlib.h>
+#include <time.h>
+
+using namespace std;
 
 QT_BEGIN_NAMESPACE
 namespace Ui { class MainWindow; }
@@ -21,7 +25,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_introNombre_windowIconTextChanged(const QString &iconText);
+    void on_introNombre_currentTextChanged(const QString &iconText);
 
     void on_nRuedas_valueChanged(int arg1);
 
@@ -46,8 +50,6 @@ private slots:
     void on_pinchazo_currentTextChanged(const QString &arg1);
 
     void on_generaMatricula_clicked();
-
-    void on_matricula_textChanged(const QString &arg1);
 
 private:
     Ui::MainWindow *ui;
