@@ -141,6 +141,14 @@ void vehiculo::setLicensePlate(QString value) {
     this->licensePlate = value;
 }
 
+QString vehiculo::getType() {
+    return this->type;
+}
+
+void vehiculo::setType(QString value) {
+    this->type = value;
+}
+
 /*Tipos de vehiculos*/
 bool vehiculo::isBicycle() {
 

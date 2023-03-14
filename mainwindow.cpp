@@ -11,6 +11,19 @@ MainWindow::MainWindow(QWidget *parent)
 {
     ui->setupUi(this);
     ui->matricula->setReadOnly(true);
+    ui->introNombre->setText("");
+    ui->nRuedas->setValue(0);
+    ui->MotorCheck->setChecked(false);
+    ui->spinBoxPotencia->setDisabled(ui->MotorCheck);/////////////////////////////////////////7
+    ui->combustible->setChecked(false);
+    ui->tipoCombustible->setDisabled(ui->combustible);
+    ui->alas->setChecked(false);
+    ui->reactores->setChecked(false);
+    ui->trenAterrizaje->setChecked(false);
+    ui->locomotora->setChecked(false);
+    ui->nVagones->setDisabled(ui->locomotora);
+    ui->matricula->setText("");
+    ui->contVehics->setText("0");
 }
 
 MainWindow::~MainWindow()
@@ -34,8 +47,19 @@ void MainWindow::on_nRuedas_valueChanged(int arg1)
 void MainWindow::on_MotorCheck_clicked(bool checked)
 {
     this->motor = checked;
+
+    if (checked == false) {
+        this->hp = 0;
+        ui->spinBoxPotencia->setValue(0);
+    }
 }
 
+void MainWindow::on_spinBoxPotencia_valueChanged(int arg1)
+{
+    if (this->motor) {
+        this->hp = arg1;
+    }
+}
 
 void MainWindow::on_combustible_clicked(bool checked)
 {
@@ -45,7 +69,7 @@ void MainWindow::on_combustible_clicked(bool checked)
 
 void MainWindow::on_tipoCombustible_currentTextChanged(const QString &arg1)
 {
-    if (this->fuel == true) {
+    if (this->fuel) {
         this->fuelType = arg1;
     }
 }
@@ -77,12 +101,17 @@ void MainWindow::on_trenAterrizaje_clicked(bool checked)
 void MainWindow::on_locomotora_clicked(bool checked)
 {
     this->locomotive = checked;
+
+    if (checked == false) {
+        this->wagons = 0;
+        ui->nVagones->setValue(0);
+    }
 }
 
 
 void MainWindow::on_nVagones_valueChanged(int arg1)
 {
-    if (this->locomotive == true) {
+    if (this->locomotive) {
         this->wagons = arg1;
     }
 }
@@ -124,13 +153,125 @@ void MainWindow::on_generaMatricula_clicked()
     this->licensePlate = plate;
 }
 
-/*Un botón para verificar y otro para guardar el vehículo en el garaje, señal entre los dos, si no se verifica o configuración incorrecta no deja guardarlo*/
-
-/*Una vez guardado el vehículo, se resetean las opciones de creación del vehículo*/
-
-/*Para mostrar el garaje ->
- *  1. Botón garaje, que abra una ventana con todos los vehículos guardados
- *  2. Una lista directamente con los vehículos y que se muestren a medida que se vayan guardando
- *  3. ComboBox en la que se van añadiendo los vehiculos, dependiendo del vehiculo elegido, se muestra en un cuadrado (LineEdit?) los datos del vehículo seleccionado
+/*Para mostrar el garaje:
+ *  -> En la ventana principal, un recuadro que indique el nº de vehiculos creados y un recuadro que muestre los nombres de los vehículos
+ *  -> Al seleccionar un vehículo, ventana emergente que muestra todos los datos del vehículo seleccionado
  */
+
+
+void MainWindow::on_buttonVerifica_clicked()
+{
+    /*
+     * FALTA LA COMPROBACIÓN DE QUE LAS MATRÍCULAS NO SEAN IGUALES
+     */
+
+    /*Verificar que el objeto creado es una configuración válida*/
+    vehiculo *a = new vehiculo(this->name, this->nWheels, this->motor, this->hp, this->fuel, this->fuelType, this->color, this->wings, this->reactors, this->undercarriage, this->locomotive, this->wagons, this->replaceWheel, this->punctureKit, this->licensePlate);
+
+        if (a->isBicycle() && this->verifLicense(a)) {
+            QMessageBox::information(this, "Bicicleta creada", "Tu bicicleta se ha guardado en el garage",QMessageBox::Ok);
+            a->setType("Bicicleta");
+            this->garaje.push_back(a);
+            this->nVehicles++;
+            ui->contVehics->setText(QString::number(this->nVehicles));
+            this->reset();
+        } else if (a->isTricycle() && this->verifLicense(a)) {
+            QMessageBox::information(this, "Triciclo creado", "Tu triciclo se ha guardado en el garage",QMessageBox::Ok);
+            a->setType("Triciclo");
+            this->garaje.push_back(a);
+            this->nVehicles++;
+            ui->contVehics->setText(QString::number(this->nVehicles));
+            this->reset();
+        } else if (a->isMotorcycle() && this->verifLicense(a)) {
+            QMessageBox::information(this, "Motocicleta creada", "Tu motocicleta se ha guardado en el garage",QMessageBox::Ok);
+            a->setType("Motocicleta");
+            this->garaje.push_back(a);
+            this->nVehicles++;
+            ui->contVehics->setText(QString::number(this->nVehicles));
+            this->reset();
+        } else if (a->isCar() && this->verifLicense(a)) {
+            QMessageBox::information(this, "Coche creado", "Tu coche se ha guardado en el garage",QMessageBox::Ok);
+            a->setType("Coche");
+            this->garaje.push_back(a);
+            this->nVehicles++;
+            ui->contVehics->setText(QString::number(this->nVehicles));
+            this->reset();
+        } else if (a->isSportsCar() && this->verifLicense(a)) {
+            QMessageBox::information(this, "Deportivo creado", "Tu deportivo se ha guardado en el garage",QMessageBox::Ok);
+            a->setType("Deportivo");
+            this->garaje.push_back(a);
+            this->nVehicles++;
+            ui->contVehics->setText(QString::number(this->nVehicles));
+            this->reset();
+        } else if (a->isPlane() && this->verifLicense(a)) {
+            QMessageBox::information(this, "Avión creado", "Tu avión se ha guardado en el garage",QMessageBox::Ok);
+            a->setType("Avion");
+            this->garaje.push_back(a);
+            this->nVehicles++;
+            ui->contVehics->setText(QString::number(this->nVehicles));
+            this->reset();
+        } else if (a->isTrain() && this->verifLicense(a)) {
+            QMessageBox::information(this, "Tren creado", "Tu tren se ha guardado en el garage",QMessageBox::Ok);
+            a->setType("Tren");
+            this->garaje.push_back(a);
+            this->nVehicles++;
+            ui->contVehics->setText(QString::number(this->nVehicles));
+            this->reset();
+        } else {
+            QMessageBox::warning(this, "Error", "La configuración introducida no es válida para ningún vehículo",QMessageBox::Ok);
+        }
+
+        return;
+}
+
+/*Cuando un vehículo se guarda se resetean los cuadros de configuración*/
+void MainWindow::reset() {
+    this->name = "";
+    this->fuelType = "";
+    this->color = "";
+    this->licensePlate = "";
+    this->type = "";
+    this->nWheels= 0;
+    this->hp = 0;
+    this->wagons = 0;
+    this->motor = false;
+    this->fuel = false;
+    this->wings = false;
+    this->reactors = false;
+    this->undercarriage = false;
+    this->locomotive = false;
+    this->replaceWheel = false;
+    this->punctureKit = false;
+
+    /*Falta poner los spinbox a 0*/
+    ui->introNombre->setText("");
+    ui->nRuedas->setValue(0);
+    ui->MotorCheck->setChecked(false);
+    ui->spinBoxPotencia->setValue(0);
+    ui->spinBoxPotencia->setDisabled(ui->MotorCheck);
+    ui->combustible->setChecked(false);
+    ui->tipoCombustible->setDisabled(ui->combustible);
+    ui->alas->setChecked(false);
+    ui->reactores->setChecked(false);
+    ui->trenAterrizaje->setChecked(false);
+    ui->locomotora->setChecked(false);
+    ui->nVagones->setValue(0);
+    ui->matricula->setText("");
+
+}
+
+bool MainWindow::verifLicense(vehiculo* vehic) {
+    for (int i = 0; i < (int)garaje.size(); i++) {
+        if (garaje[i]->getLicensePlate() == vehic->getLicensePlate()) {
+
+            QMessageBox::warning(this, "Error", "No se pueden guardar 2 vehículos con la misma matrícula",QMessageBox::Ok);
+            return false;
+        }
+    }
+
+    return true;
+}
+
+
+
 

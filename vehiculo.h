@@ -8,7 +8,7 @@ class vehiculo
 public:
     vehiculo(QString name, int nWheels, bool motor, int hp, bool fuel, QString fuelType, QString color, bool wings, bool reactors, bool undercarriage, bool locomotive, int wagons, bool replaceWheel, bool punctureKit, QString licensePlate);
 
-    QString name, fuelType, color, licensePlate;
+    QString name, fuelType, color, licensePlate, type;
     int nWheels, hp, wagons;
     bool motor, fuel, wings, reactors, undercarriage, locomotive, replaceWheel, punctureKit;
 
@@ -42,6 +42,8 @@ public:
     void setPunctureKit(bool value);
     QString getLicensePlate();
     void setLicensePlate(QString value);
+    QString getType();
+    void setType(QString value);
 
     bool isBicycle();
     bool isTricycle();

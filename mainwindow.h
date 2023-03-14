@@ -51,15 +51,25 @@ private slots:
 
     void on_generaMatricula_clicked();
 
+    void on_buttonVerifica_clicked();
+
+    void reset();
+
+    bool verifLicense(vehiculo* vehic);
+
+    void on_spinBoxPotencia_valueChanged(int arg1);
+
 private:
     Ui::MainWindow *ui;
     QString name = "";
     QString fuelType = "";
     QString color = "";
-    QString  licensePlate = "";
+    QString licensePlate = "";
+    QString type = "";
     int nWheels= 0;
     int hp = 0;
     int wagons = 0;
+    int nVehicles = 0;
     bool motor = false;
     bool fuel = false;
     bool wings = false;
@@ -68,5 +78,7 @@ private:
     bool locomotive = false;
     bool replaceWheel = false;
     bool punctureKit = false;
+
+    std::vector <vehiculo *> garaje;
 };
 #endif // MAINWINDOW_H
