@@ -1,10 +1,6 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 
-/*
- *  HAY QUE AÑADIR LAS SEÑALES ENTRE SLOTS (SI NO SE PULSA QUE TIENE LOCOMOTORA NO SE PUEDE ELEGIR EL Nº DE VAGONES)
- *  A partir de ahí solo es ir programando y puliendo la interfaz
-*/
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -104,7 +100,7 @@ void MainWindow::on_locomotora_clicked(bool checked)
 
     if (checked == false) {
         this->wagons = 0;
-        ui->nVagones->setValue(0);
+        //ui->nVagones->setValue(0);
     }
 }
 
@@ -153,97 +149,94 @@ void MainWindow::on_generaMatricula_clicked()
     this->licensePlate = plate;
 }
 
-/*Para mostrar el garaje:
- *  -> En la ventana principal, un recuadro que indique el nº de vehiculos creados y un recuadro que muestre los nombres de los vehículos
- *  -> Al seleccionar un vehículo, ventana emergente que muestra todos los datos del vehículo seleccionado
- */
-
-
 void MainWindow::on_buttonVerifica_clicked()
 {
-    /*
-     * FALTA LA COMPROBACIÓN DE QUE LAS MATRÍCULAS NO SEAN IGUALES
-     */
-
     /*Verificar que el objeto creado es una configuración válida*/
     vehiculo *a = new vehiculo(this->name, this->nWheels, this->motor, this->hp, this->fuel, this->fuelType, this->color, this->wings, this->reactors, this->undercarriage, this->locomotive, this->wagons, this->replaceWheel, this->punctureKit, this->licensePlate);
 
-        if (a->isBicycle() && this->verifLicense(a)) {
-            QMessageBox::information(this, "Bicicleta creada", "Tu bicicleta se ha guardado en el garage",QMessageBox::Ok);
-            a->setType("Bicicleta");
-            this->garaje.push_back(a);
-            this->nVehicles++;
-            ui->contVehics->setText(QString::number(this->nVehicles));
-            this->reset();
-        } else if (a->isTricycle() && this->verifLicense(a)) {
-            QMessageBox::information(this, "Triciclo creado", "Tu triciclo se ha guardado en el garage",QMessageBox::Ok);
-            a->setType("Triciclo");
-            this->garaje.push_back(a);
-            this->nVehicles++;
-            ui->contVehics->setText(QString::number(this->nVehicles));
-            this->reset();
-        } else if (a->isMotorcycle() && this->verifLicense(a)) {
-            QMessageBox::information(this, "Motocicleta creada", "Tu motocicleta se ha guardado en el garage",QMessageBox::Ok);
-            a->setType("Motocicleta");
-            this->garaje.push_back(a);
-            this->nVehicles++;
-            ui->contVehics->setText(QString::number(this->nVehicles));
-            this->reset();
-        } else if (a->isCar() && this->verifLicense(a)) {
-            QMessageBox::information(this, "Coche creado", "Tu coche se ha guardado en el garage",QMessageBox::Ok);
-            a->setType("Coche");
-            this->garaje.push_back(a);
-            this->nVehicles++;
-            ui->contVehics->setText(QString::number(this->nVehicles));
-            this->reset();
-        } else if (a->isSportsCar() && this->verifLicense(a)) {
-            QMessageBox::information(this, "Deportivo creado", "Tu deportivo se ha guardado en el garage",QMessageBox::Ok);
-            a->setType("Deportivo");
-            this->garaje.push_back(a);
-            this->nVehicles++;
-            ui->contVehics->setText(QString::number(this->nVehicles));
-            this->reset();
-        } else if (a->isPlane() && this->verifLicense(a)) {
-            QMessageBox::information(this, "Avión creado", "Tu avión se ha guardado en el garage",QMessageBox::Ok);
-            a->setType("Avion");
-            this->garaje.push_back(a);
-            this->nVehicles++;
-            ui->contVehics->setText(QString::number(this->nVehicles));
-            this->reset();
-        } else if (a->isTrain() && this->verifLicense(a)) {
-            QMessageBox::information(this, "Tren creado", "Tu tren se ha guardado en el garage",QMessageBox::Ok);
-            a->setType("Tren");
-            this->garaje.push_back(a);
-            this->nVehicles++;
-            ui->contVehics->setText(QString::number(this->nVehicles));
-            this->reset();
+        if (ui->introNombre->text() != "" || ui->matricula->text() != "") {
+
+            if (a->isBicycle() && this->verifLicense(a)) {
+                QMessageBox::information(this, "Bicicleta creada", "Tu bicicleta se ha guardado en el garage",QMessageBox::Ok);
+                a->setType("Bicicleta");
+                this->saveVehicle(a);
+                this->garaje.push_back(a);
+                this->nVehicles++;
+                ui->contVehics->setText(QString::number(this->nVehicles));
+                this->reset();
+
+            } else if (a->isTricycle() && this->verifLicense(a)) {
+                QMessageBox::information(this, "Triciclo creado", "Tu triciclo se ha guardado en el garage",QMessageBox::Ok);
+                a->setType("Triciclo");
+                this->saveVehicle(a);
+                this->garaje.push_back(a);
+                this->nVehicles++;
+                ui->contVehics->setText(QString::number(this->nVehicles));
+                this->reset();
+
+            } else if (a->isMotorcycle() && this->verifLicense(a)) {
+                QMessageBox::information(this, "Motocicleta creada", "Tu motocicleta se ha guardado en el garage",QMessageBox::Ok);
+                a->setType("Motocicleta");
+                this->saveVehicle(a);
+                this->garaje.push_back(a);
+                this->nVehicles++;
+                ui->contVehics->setText(QString::number(this->nVehicles));
+                this->reset();
+
+            } else if (a->isCar() && this->verifLicense(a)) {
+                QMessageBox::information(this, "Coche creado", "Tu coche se ha guardado en el garage",QMessageBox::Ok);
+                a->setType("Coche");
+                this->saveVehicle(a);
+                this->garaje.push_back(a);
+                this->nVehicles++;
+                ui->contVehics->setText(QString::number(this->nVehicles));
+                this->reset();
+
+            } else if (a->isSportsCar() && this->verifLicense(a)) {
+                QMessageBox::information(this, "Deportivo creado", "Tu deportivo se ha guardado en el garage",QMessageBox::Ok);
+                a->setType("Deportivo");
+                this->saveVehicle(a);
+                this->garaje.push_back(a);
+                this->nVehicles++;
+                ui->contVehics->setText(QString::number(this->nVehicles));
+                this->reset();
+
+            } else if (a->isPlane() && this->verifLicense(a)) {
+                QMessageBox::information(this, "Avión creado", "Tu avión se ha guardado en el garage",QMessageBox::Ok);
+                a->setType("Avion");
+                this->saveVehicle(a);
+                this->garaje.push_back(a);
+                this->nVehicles++;
+                ui->contVehics->setText(QString::number(this->nVehicles));
+                this->reset();
+
+            } else if (a->isTrain() && this->verifLicense(a)) {
+                QMessageBox::information(this, "Tren creado", "Tu tren se ha guardado en el garage",QMessageBox::Ok);
+                a->setType("Tren");
+                this->saveVehicle(a);
+                this->garaje.push_back(a);
+                this->nVehicles++;
+                ui->contVehics->setText(QString::number(this->nVehicles));
+                this->reset();
+
+            } else {
+                QMessageBox::warning(this, "Error", "La configuración introducida no es válida para ningún vehículo",QMessageBox::Ok);
+                return;
+            }
+
         } else {
-            QMessageBox::warning(this, "Error", "La configuración introducida no es válida para ningún vehículo",QMessageBox::Ok);
+            QMessageBox::warning(this, "Error", "Por favor, rellene todos los campos con información correcta",QMessageBox::Ok);
+            return;
         }
 
-        return;
+
+
+
 }
 
 /*Cuando un vehículo se guarda se resetean los cuadros de configuración*/
 void MainWindow::reset() {
-    this->name = "";
-    this->fuelType = "";
-    this->color = "";
-    this->licensePlate = "";
-    this->type = "";
-    this->nWheels= 0;
-    this->hp = 0;
-    this->wagons = 0;
-    this->motor = false;
-    this->fuel = false;
-    this->wings = false;
-    this->reactors = false;
-    this->undercarriage = false;
-    this->locomotive = false;
-    this->replaceWheel = false;
-    this->punctureKit = false;
 
-    /*Falta poner los spinbox a 0*/
     ui->introNombre->setText("");
     ui->nRuedas->setValue(0);
     ui->MotorCheck->setChecked(false);
@@ -255,9 +248,26 @@ void MainWindow::reset() {
     ui->reactores->setChecked(false);
     ui->trenAterrizaje->setChecked(false);
     ui->locomotora->setChecked(false);
+    ui->nVagones->setDisabled(ui->locomotora);
     ui->nVagones->setValue(0);
     ui->matricula->setText("");
 
+//    this->name = "";
+//    this->fuelType = "";
+//    this->color = "";
+//    this->licensePlate = "";
+//    this->type = "";
+//    this->nWheels= 0;
+//    this->hp = 0;
+//    this->wagons = 0;
+//    this->motor = false;
+//    this->fuel = false;
+//    this->wings = false;
+//    this->reactors = false;
+//    this->undercarriage = false;
+//    this->locomotive = false;
+//    this->replaceWheel = false;
+//    this->punctureKit = false;
 }
 
 bool MainWindow::verifLicense(vehiculo* vehic) {
@@ -272,6 +282,22 @@ bool MainWindow::verifLicense(vehiculo* vehic) {
     return true;
 }
 
+void MainWindow::saveVehicle(vehiculo *vehic) {
 
+    QStringList headers = {"TIPO DE VEHÍCULO" , "NOMBRE", "MATRÍCULA"};
+    ui->guardados->setHorizontalHeaderLabels(headers);
+
+    ui->guardados->insertRow(rowCount);
+
+    QTableWidgetItem *vehiculoNombre = new QTableWidgetItem(vehic->getName());
+    QTableWidgetItem *vehiculoTipo = new QTableWidgetItem(vehic->getType());
+    QTableWidgetItem *vehiculoMatricula= new QTableWidgetItem(vehic->getLicensePlate());
+
+    ui->guardados->setItem(rowCount, 0, vehiculoTipo);
+    ui->guardados->setItem(rowCount, 1, vehiculoNombre);
+    ui->guardados->setItem(rowCount, 2, vehiculoMatricula);
+
+    rowCount++;
+}
 
 

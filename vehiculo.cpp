@@ -324,7 +324,7 @@ bool vehiculo::isTrain() {
                                 if (this->reactors == false) {
                                     if (this->undercarriage == false) {
                                         if (this->locomotive == true) {
-                                            if (this->wagons >=5 && this->wagons <= 20) {
+                                            if (this->wagons >= 5 && this->wagons <= 20) {
                                                 if (this->replaceWheel == true) {
                                                     return true;
                                                 }

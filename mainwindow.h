@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include "vehiculo.h"
+#include <vehiculo.h>
 
 #include <QMainWindow>
 #include <QString>
@@ -59,6 +59,8 @@ private slots:
 
     void on_spinBoxPotencia_valueChanged(int arg1);
 
+    void saveVehicle(vehiculo *vehic);
+
 private:
     Ui::MainWindow *ui;
     QString name = "";
@@ -70,6 +72,7 @@ private:
     int hp = 0;
     int wagons = 0;
     int nVehicles = 0;
+    int rowCount = 0;
     bool motor = false;
     bool fuel = false;
     bool wings = false;

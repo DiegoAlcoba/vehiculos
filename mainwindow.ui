@@ -499,16 +499,6 @@
      <string>Ajustar esta parte para que rellene a lo alto y no quede hueco</string>
     </property>
    </widget>
-   <widget class="QTableView" name="tableView">
-    <property name="geometry">
-     <rect>
-      <x>550</x>
-      <y>90</y>
-      <width>701</width>
-      <height>551</height>
-     </rect>
-    </property>
-   </widget>
    <widget class="QLabel" name="contVehics">
     <property name="geometry">
      <rect>
@@ -520,6 +510,16 @@
     </property>
     <property name="text">
      <string>Contador de vehiculos</string>
+    </property>
+   </widget>
+   <widget class="QTableWidget" name="guardados">
+    <property name="geometry">
+     <rect>
+      <x>690</x>
+      <y>210</y>
+      <width>331</width>
+      <height>391</height>
+     </rect>
     </property>
    </widget>
   </widget>
