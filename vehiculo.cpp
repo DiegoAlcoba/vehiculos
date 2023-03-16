@@ -155,13 +155,15 @@ bool vehiculo::isBicycle() {
     if (this->nWheels == 2) {
         if (this->motor == false) {
             if (this->fuel == false) {
-                if (this->wings == false) {
-                    if (this->reactors == false) {
-                        if (this->undercarriage == false) {
-                            if (this->locomotive == false) {
-                                if (this->wagons == 0) {
-                                    if (this->punctureKit == true) {
-                                        return true; //Si se cumplen todos, es verdadero
+                if (this->fuelType == "") {
+                    if (this->wings == false) {
+                        if (this->reactors == false) {
+                            if (this->undercarriage == false) {
+                                if (this->locomotive == false) {
+                                    if (this->wagons == 0) {
+                                        if (this->punctureKit == true) {
+                                            return true; //Si se cumplen todos, es verdadero
+                                        }
                                     }
                                 }
                             }
@@ -179,20 +181,22 @@ bool vehiculo::isTricycle() {
     if (this->nWheels == 3) {
         if (this->motor == false) {
             if (this->fuel == false) {
-                if (this->wings == false) {
-                    if (this->reactors == false) {
-                        if (this->undercarriage == false) {
-                            if (this->locomotive == false) {
-                                if (this->wagons == 0) {
-                                    if (this->punctureKit == true) {
-                                        return true;
+                if (this->fuelType == "") {
+                    if (this->wings == false) {
+                        if (this->reactors == false) {
+                            if (this->undercarriage == false) {
+                                if (this->locomotive == false) {
+                                    if (this->wagons == 0) {
+                                        if (this->punctureKit == true) {
+                                            return true;
+                                        }
                                     }
                                 }
                             }
                         }
                     }
                 }
-            }
+                }
         }
     }
     return false;

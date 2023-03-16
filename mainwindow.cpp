@@ -28,9 +28,9 @@ MainWindow::~MainWindow()
 }
 
 
-void MainWindow::on_introNombre_currentTextChanged(const QString &iconText)
+void MainWindow::on_introNombre_textEdited(const QString &arg1)
 {
-    this->name = iconText;
+    this->name = arg1;
 }
 
 
@@ -100,7 +100,7 @@ void MainWindow::on_locomotora_clicked(bool checked)
 
     if (checked == false) {
         this->wagons = 0;
-        //ui->nVagones->setValue(0);
+        ui->nVagones->setValue(0);
     }
 }
 
@@ -113,16 +113,25 @@ void MainWindow::on_nVagones_valueChanged(int arg1)
 }
 
 
-void MainWindow::on_pinchazo_currentTextChanged(const QString &arg1)
+//void MainWindow::on_pinchazo_currentTextChanged(const QString &arg1)
+//{
+//    if (arg1 == "Rueda de Repuesto") {
+//        this->replaceWheel = true;
+//    }
+//    else {
+//        this->punctureKit = true;
+//    }
+//}
+
+void MainWindow::on_pinchazo_currentIndexChanged(int index)
 {
-    if (arg1 == "Rueda de Repuesto") {
+    if (index == 0) {
         this->replaceWheel = true;
     }
-    else {
+    else if (index == 1) {
         this->punctureKit = true;
     }
 }
-
 
 void MainWindow::on_generaMatricula_clicked()
 {
@@ -228,14 +237,27 @@ void MainWindow::on_buttonVerifica_clicked()
             QMessageBox::warning(this, "Error", "Por favor, rellene todos los campos con información correcta",QMessageBox::Ok);
             return;
         }
-
-
-
-
 }
 
 /*Cuando un vehículo se guarda se resetean los cuadros de configuración*/
 void MainWindow::reset() {
+
+    this->name = "";
+    this->fuelType = "";
+    this->color = "";
+    this->licensePlate = "";
+    this->type = "";
+    this->nWheels= 0;
+    this->hp = 0;
+    this->wagons = 0;
+    this->motor = false;
+    this->fuel = false;
+    this->wings = false;
+    this->reactors = false;
+    this->undercarriage = false;
+    this->locomotive = false;
+    this->replaceWheel = false;
+    this->punctureKit = false;
 
     ui->introNombre->setText("");
     ui->nRuedas->setValue(0);
@@ -251,23 +273,6 @@ void MainWindow::reset() {
     ui->nVagones->setDisabled(ui->locomotora);
     ui->nVagones->setValue(0);
     ui->matricula->setText("");
-
-//    this->name = "";
-//    this->fuelType = "";
-//    this->color = "";
-//    this->licensePlate = "";
-//    this->type = "";
-//    this->nWheels= 0;
-//    this->hp = 0;
-//    this->wagons = 0;
-//    this->motor = false;
-//    this->fuel = false;
-//    this->wings = false;
-//    this->reactors = false;
-//    this->undercarriage = false;
-//    this->locomotive = false;
-//    this->replaceWheel = false;
-//    this->punctureKit = false;
 }
 
 bool MainWindow::verifLicense(vehiculo* vehic) {
@@ -284,20 +289,63 @@ bool MainWindow::verifLicense(vehiculo* vehic) {
 
 void MainWindow::saveVehicle(vehiculo *vehic) {
 
-    QStringList headers = {"TIPO DE VEHÍCULO" , "NOMBRE", "MATRÍCULA"};
-    ui->guardados->setHorizontalHeaderLabels(headers);
+//    QStringList headers = {"TIPO DE VEHÍCULO" , "NOMBRE", "MATRÍCULA"};
+//    ui->guardados->setHorizontalHeaderLabels(headers);
 
     ui->guardados->insertRow(rowCount);
 
-    QTableWidgetItem *vehiculoNombre = new QTableWidgetItem(vehic->getName());
     QTableWidgetItem *vehiculoTipo = new QTableWidgetItem(vehic->getType());
-    QTableWidgetItem *vehiculoMatricula= new QTableWidgetItem(vehic->getLicensePlate());
-
     ui->guardados->setItem(rowCount, 0, vehiculoTipo);
+
+    QTableWidgetItem *vehiculoNombre = new QTableWidgetItem(vehic->getName());
     ui->guardados->setItem(rowCount, 1, vehiculoNombre);
-    ui->guardados->setItem(rowCount, 2, vehiculoMatricula);
+
+    if (vehic->getMotor()) {
+        QTableWidgetItem *vehiculoMotor = new QTableWidgetItem("Sí");
+        ui->guardados->setItem(rowCount, 2, vehiculoMotor);
+    }
+
+    QTableWidgetItem *vehiculoPotencia = new QTableWidgetItem(vehic->getHp());
+    ui->guardados->setItem(rowCount, 3, vehiculoPotencia);
+
+    QTableWidgetItem *vehiculoCombustible = new QTableWidgetItem(vehic->getFuelType());
+    ui->guardados->setItem(rowCount, 4, vehiculoCombustible);
+
+    QTableWidgetItem *vehiculoColor = new QTableWidgetItem(vehic->getColor());
+    ui->guardados->setItem(rowCount, 5, vehiculoColor);
+
+    if (vehic->getReactors()) {
+    QTableWidgetItem *vehiculoReacts = new QTableWidgetItem("Sí");
+    ui->guardados->setItem(rowCount, 6, vehiculoReacts);
+    }
+
+    if (vehic->getUndercarriage()) {
+        QTableWidgetItem *vehiculoAterri = new QTableWidgetItem("Sí");
+        ui->guardados->setItem(rowCount, 7, vehiculoAterri);
+    }
+
+    if (vehic->getLocomotive()) {
+        QTableWidgetItem *vehiculoLocom = new QTableWidgetItem("Sí");
+        ui->guardados->setItem(rowCount, 8, vehiculoLocom);
+    }
+
+    QTableWidgetItem *vehiculoVagones = new QTableWidgetItem(vehic->getWagons());
+    ui->guardados->setItem(rowCount, 9, vehiculoVagones);
+
+    if (vehic->getPunctureKit()) {
+        QTableWidgetItem *vehiculoAntiPinch = new QTableWidgetItem("Kit antipinchazos");
+        ui->guardados->setItem(rowCount, 10, vehiculoAntiPinch);
+    }
+    else if (vehic->getReplaceWheel()) {
+        QTableWidgetItem *vehiculoRepuesto = new QTableWidgetItem("Rueda de Repuesto");
+        ui->guardados->setItem(rowCount, 10, vehiculoRepuesto);
+    }
+
+    QTableWidgetItem *vehiculoMatricula= new QTableWidgetItem(vehic->getLicensePlate());
+    ui->guardados->setItem(rowCount, 11, vehiculoMatricula);
 
     rowCount++;
 }
+
 
 

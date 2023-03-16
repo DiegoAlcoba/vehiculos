@@ -25,7 +25,7 @@ public:
     ~MainWindow();
 
 private slots:
-    void on_introNombre_currentTextChanged(const QString &iconText);
+    void on_introNombre_textEdited(const QString &arg1);
 
     void on_nRuedas_valueChanged(int arg1);
 
@@ -47,7 +47,8 @@ private slots:
 
     void on_nVagones_valueChanged(int arg1);
 
-    void on_pinchazo_currentTextChanged(const QString &arg1);
+    //void on_pinchazo_currentTextChanged(const QString &arg1);
+    void on_pinchazo_currentIndexChanged(int index);
 
     void on_generaMatricula_clicked();
 
